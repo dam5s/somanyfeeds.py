@@ -2,4 +2,15 @@
 name = "somanyfeeds-py"
 version = "0.1.0"
 requires-python = "~=3.13.0"
-dependencies = []
+dependencies = [
+    "fastapi>=0.115.12",
+    "uvicorn>=0.34.2",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+]
+
+[tool.mypy]
+strict = true
