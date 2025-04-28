@@ -1,5 +1,7 @@
+from os import environ
+
 import uvicorn
 
-from apps.api_server.app import build_app
+port_from_env = int(environ.get("PORT", 8001))
 
-uvicorn.run('apps.api_server.app:app', port=8000, reload=True)
+uvicorn.run('apps.api_server.app:app', port=port_from_env, reload=True)

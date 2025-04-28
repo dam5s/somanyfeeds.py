@@ -8,6 +8,6 @@ router = APIRouter()
 class HelloResponse:
     message: str
 
-@router.get("/hello")
+@router.get("/api/hello")
 def say_hello() -> HelloResponse:
     return HelloResponse("Hello, World!")

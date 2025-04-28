@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint vite-project",
+    "preview": "vite preview"
+  }
+}
