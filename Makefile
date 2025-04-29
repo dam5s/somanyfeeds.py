@@ -1,7 +1,7 @@
 .PHONY: check container dev-backend dev-frontend
 
 check:
-	uv run mypy backend tests
+	uv run mypy backend backend_tests
 	uv run -m unittest
 	cd frontend && npm run lint && npm test
 
