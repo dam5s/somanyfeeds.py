@@ -1,6 +1,7 @@
 .PHONY: check fix container dev-backend dev-frontend
 
 check:
+	uv sync --frozen
 	uv run mypy backend backend_tests
 	uv run ruff check
 	uv run ruff format --check
