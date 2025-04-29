@@ -1,9 +1,15 @@
-.PHONY: check container dev-backend dev-frontend
+.PHONY: check fix container dev-backend dev-frontend
 
 check:
 	uv run mypy backend backend_tests
+	uv run ruff check
+	uv run ruff format --check
 	uv run -m unittest
 	cd frontend && npm run lint && npm test
+
+fix:
+	uv run ruff check --fix
+	uv run ruff format
 
 container:
 	docker build -f deployments/Dockerfile -t somanyfeeds-py .

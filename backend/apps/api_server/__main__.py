@@ -9,5 +9,5 @@ uvicorn.run(
     app="backend.apps.api_server.app:build_app_from_env",
     port=port_from_env,
     factory=True,
-    reload=use_reload
+    reload=use_reload,
 )
