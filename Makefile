@@ -1,7 +1,8 @@
 .PHONY: check container
 
 check:
-	uv run mypy apps pkgs
+	uv run mypy backend tests
+	uv run -m unittest
 
 container:
 	docker build -f deployments/Dockerfile -t somanyfeeds-py .
