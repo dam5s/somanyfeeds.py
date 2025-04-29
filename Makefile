@@ -3,7 +3,7 @@
 check:
 	uv run mypy backend tests
 	uv run -m unittest
-	cd frontend; npm test
+	cd frontend && npm run lint && npm test
 
 container:
 	docker build -f deployments/Dockerfile -t somanyfeeds-py .
