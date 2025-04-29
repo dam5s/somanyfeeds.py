@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import * as schema from 'schemawax';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+type Props = {
+    apiUrl: string
 }
 
-export default App
+type HelloMessage = {
+    message: string
+}
+
+const helloMessageDecoder: schema.Decoder<HelloMessage> =
+    schema.object({
+        required: {message: schema.string},
+    });
+
+export const App: React.FC<Props> = ({apiUrl}: Props) => {
+    const [message, setMessage] = React.useState('');
+
+    React.useEffect(() => {
+        const fetchMessage = async () => {
+            try {
+                const response = await fetch(`${apiUrl}/api/hello`);
+                const json: unknown = await response.json();
+                const decodeResult = helloMessageDecoder.validate(json);
+
+                switch (decodeResult.type) {
+                    case 'ok':
+                        setMessage(decodeResult.data.message);
+                        break;
+                    case 'error':
+                        setMessage('Error decoding the response');
+                        break;
+                }
+            } catch {
+                setMessage('Connection error or invalid json');
+            }
+        };
+
+        fetchMessage().then();
+    }, [apiUrl]);
+
+    return (
+        <section>{message}</section>
+    );
+};
