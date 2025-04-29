@@ -7,7 +7,7 @@ from backend.apps.api_server.app import build_app
 
 class TestHealthRoutes(unittest.TestCase):
     def test_check_health(self) -> None:
-        app = build_app()
+        app = build_app(message='')
         client = TestClient(app)
 
         response = client.get("/api/health")

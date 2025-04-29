@@ -8,11 +8,11 @@ class HelloResponse:
     message: str
 
 
-def router() -> APIRouter:
+def router(message: str) -> APIRouter:
     api = APIRouter()
 
     @api.get("/hello")
     def say_hello() -> HelloResponse:
-        return HelloResponse("Hello, World!")
+        return HelloResponse(message)
 
     return api

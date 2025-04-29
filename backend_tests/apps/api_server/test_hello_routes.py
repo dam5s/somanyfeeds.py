@@ -7,7 +7,7 @@ from backend.apps.api_server.app import build_app
 
 class TestHelloRoutes(unittest.TestCase):
     def test_say_hello(self) -> None:
-        app = build_app()
+        app = build_app(message='Hello, World!')
         client = TestClient(app)
 
         response = client.get("/api/hello")
