@@ -16,6 +16,6 @@ class DownloadFailure:
 def download(url: str) -> Download | DownloadFailure:
     try:
         output = urlopen(url).read()
-        return Download(url, content=output.decode('utf-8'))
+        return Download(url, content=output.decode("utf-8"))
     except Exception as e:
         return DownloadFailure(e)

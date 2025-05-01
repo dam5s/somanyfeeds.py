@@ -2,7 +2,7 @@
 
 check:
 	uv sync --frozen
-	uv run mypy backend backend_tests
+	uv run pyrefly check
 	uv run ruff check
 	uv run ruff format --check
 	uv run -m unittest

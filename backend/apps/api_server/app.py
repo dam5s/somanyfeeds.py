@@ -10,6 +10,8 @@ from backend.apps.api_server.feeds_processor import DefaultFeedsProcessor
 from backend.apps.api_server.periodic_job_runner import PeriodicJobRunner
 from backend.pkgs.feeds_data.articles_repository import ArticlesRepository
 from backend.pkgs.feeds_data.feeds_repository import FeedsRepository
+from backend.pkgs.feeds_processing.feed_parser import MultiFeedParser
+from backend.pkgs.feeds_processing.rss_parser import RssParser
 
 
 def float_from_env(name: str, fallback: float) -> float:
@@ -22,10 +24,15 @@ def float_from_env(name: str, fallback: float) -> float:
 def dependencies_from_env() -> AppDependencies:
     feeds_repository = FeedsRepository()
     articles_repository = ArticlesRepository()
+    feed_parser = MultiFeedParser(
+        [
+            RssParser(),
+        ]
+    )
 
     return AppDependencies(
         feeds_repository=feeds_repository,
-        feeds_processor=DefaultFeedsProcessor(feeds_repository, articles_repository),
+        feeds_processor=DefaultFeedsProcessor(feeds_repository, articles_repository, feed_parser),
         feeds_processing_frequency=float_from_env("FEEDS_PROCESSING_FREQUENCY", fallback=5 * 60),
     )
 
