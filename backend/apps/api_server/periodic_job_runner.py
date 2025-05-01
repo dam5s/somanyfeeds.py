@@ -4,7 +4,6 @@ from typing import Optional, Callable, Awaitable
 
 
 class PeriodicJobRunner:
-
     __job: Callable[[], Awaitable[None]]
     __frequency: float
     __running: bool = False

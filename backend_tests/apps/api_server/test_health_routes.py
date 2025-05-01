@@ -2,12 +2,12 @@ import unittest
 
 from starlette.testclient import TestClient
 
-from backend.apps.api_server.app import build_app
+from backend_tests.apps.api_server.testing_app import build_testing_app
 
 
 class TestHealthRoutes(unittest.TestCase):
     def test_check_health(self) -> None:
-        app = build_app(message="")
+        app = build_testing_app()
         client = TestClient(app)
 
         response = client.get("/api/health")
