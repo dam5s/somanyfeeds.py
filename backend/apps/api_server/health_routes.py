@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from fastapi import APIRouter
 
 
-@dataclass
+@dataclass(frozen=True)
 class HealthResponse:
     status: str
 

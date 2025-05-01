@@ -1,4 +1,4 @@
-from backend.pkgs.feeds_processing.feeds_processor import FeedsProcessor
+from backend.apps.api_server.feeds_processor import FeedsProcessor
 
 
 class TestingFeedsProcessor(FeedsProcessor):

@@ -1,0 +1,54 @@
+import logging
+from typing import Protocol
+
+from backend.pkgs.feeds_data.articles_repository import ArticlesRepository, ArticleRecord
+from backend.pkgs.feeds_data.feeds_repository import FeedsRepository, FeedRecord
+from backend.pkgs.feeds_processing.downloads import download, DownloadFailure
+from backend.pkgs.feeds_processing.feed_parser import parse_feed, ParseFeedFailure, Feed
+
+
+class FeedsProcessor(Protocol):
+    async def process_feeds_async(self) -> None:
+        pass
+
+
+class DefaultFeedsProcessor(FeedsProcessor):
+    __feeds_repo: FeedsRepository
+    __articles_repo: ArticlesRepository
+
+    def __init__(self, feeds_repo: FeedsRepository, articles_repo: ArticlesRepository):
+        self.__feeds_repo = feeds_repo
+        self.__articles_repo = articles_repo
+
+    async def process_feeds_async(self) -> None:
+        for feed in self.__feeds_repo.find_all():
+            result = self.process_feed(feed)
+
+            if isinstance(result, DownloadFailure):
+                logging.exception("Error downloading feed %s", feed.url, result.exception)
+                continue
+
+            if isinstance(result, ParseFeedFailure):
+                logging.error("Error parsing feed %s", feed.url)
+                continue
+
+            article_records = [
+                ArticleRecord(
+                    feed_url=feed.url,
+                    url=article.url,
+                    title=article.title,
+                    content=article.content,
+                )
+                for article in result.articles
+            ]
+
+            self.__articles_repo.upsert_all(article_records)
+
+    @staticmethod
+    def process_feed(feed: FeedRecord) -> DownloadFailure | ParseFeedFailure | Feed:
+        download_result = download(feed.url)
+
+        if isinstance(download_result, DownloadFailure):
+            return download_result
+
+        return parse_feed(download_result)
