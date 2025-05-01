@@ -1,3 +1,4 @@
+from datetime import datetime
 from dataclasses import dataclass
 from typing import Optional, Protocol
 
@@ -7,8 +8,9 @@ from backend.pkgs.feeds_processing.downloads import Download
 @dataclass(frozen=True)
 class FeedArticle:
     url: str
-    title: str
+    title: Optional[str]
     content: str
+    published_at: datetime
 
 
 @dataclass(frozen=True)
@@ -43,9 +45,10 @@ class MultiFeedParser(FeedParser):
         for parser in self.__parsers:
             result = parser.try_parse(download)
 
-            if isinstance(result, Feed):
-                return result
-
-            errors.extend(result.errors)
+            match result:
+                case Feed():
+                    return result
+                case ParseFeedFailure():
+                    errors.extend(result.errors)
 
         return ParseFeedFailure(errors)

@@ -1,13 +1,15 @@
+from datetime import datetime
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Tuple, Optional
 
 
 @dataclass(frozen=True)
 class ArticleRecord:
     feed_url: str
     url: str
-    title: str
+    title: Optional[str]
     content: str
+    published_at: datetime
 
     def key(self) -> Tuple[str, str]:
         return self.feed_url, self.url

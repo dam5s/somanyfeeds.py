@@ -23,7 +23,7 @@ class DefaultFeedsProcessor(FeedsProcessor):
 
     async def process_feeds_async(self) -> None:
         for feed in self.__feeds_repo.find_all():
-            result = self.process_feed(feed)
+            result = self.__process_feed(feed)
 
             if isinstance(result, DownloadFailure):
                 logging.exception("Error downloading feed %s", feed.url, result.exception)
@@ -45,7 +45,7 @@ class DefaultFeedsProcessor(FeedsProcessor):
 
             self.__articles_repo.upsert_all(article_records)
 
-    def process_feed(self, feed: FeedRecord) -> DownloadFailure | ParseFeedFailure | Feed:
+    def __process_feed(self, feed: FeedRecord) -> DownloadFailure | ParseFeedFailure | Feed:
         download_result = download(feed.url)
 
         if isinstance(download_result, DownloadFailure):
