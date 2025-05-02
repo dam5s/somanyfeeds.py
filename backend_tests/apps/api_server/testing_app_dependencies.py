@@ -2,14 +2,14 @@ from fastapi.testclient import TestClient
 
 from backend.apps.api_server.app import build_app
 from backend.apps.api_server.app_dependencies import AppDependencies
-from backend.apps.api_server.feeds_processor import FeedsProcessor
+from backend.apps.api_server.periodic_job_runner import AsyncJob
 from backend.pkgs.feeds_data.feeds_repository import FeedsRepository
 from backend_tests.pkgs.feeds_processing.testing_feeds_processor import TestingFeedsProcessor
 
 
 def build_testing_app_dependencies(
     feeds_repository: FeedsRepository = FeedsRepository(),
-    feeds_processor: FeedsProcessor = TestingFeedsProcessor(),
+    feeds_processor: AsyncJob = TestingFeedsProcessor(),
     feeds_processing_frequency: float = 1.0,
 ) -> AppDependencies:
     return AppDependencies(
@@ -21,7 +21,7 @@ def build_testing_app_dependencies(
 
 def build_test_client(
     feeds_repository: FeedsRepository = FeedsRepository(),
-    feeds_processor: FeedsProcessor = TestingFeedsProcessor(),
+    feeds_processor: AsyncJob = TestingFeedsProcessor(),
     feeds_processing_frequency: float = 1.0,
 ) -> TestClient:
     dependencies = build_testing_app_dependencies(

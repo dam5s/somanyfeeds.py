@@ -1,6 +1,6 @@
-from backend.apps.api_server.feeds_processor import FeedsProcessor
+from backend.apps.api_server.periodic_job_runner import AsyncJob
 
 
-class TestingFeedsProcessor(FeedsProcessor):
-    async def process_feeds_async(self) -> None:
+class TestingFeedsProcessor(AsyncJob):
+    async def run_async(self) -> None:
         pass

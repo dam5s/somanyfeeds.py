@@ -1,15 +1,19 @@
 import asyncio
 from asyncio import Task
-from typing import Optional, Callable, Awaitable
+from typing import Optional, Protocol
+
+
+class AsyncJob(Protocol):
+    async def run_async(self) -> None: ...
 
 
 class PeriodicJobRunner:
-    __job: Callable[[], Awaitable[None]]
+    __job: AsyncJob
     __frequency: float
     __running: bool = False
     __task: Optional[Task[None]] = None
 
-    def __init__(self, job: Callable[[], Awaitable[None]], frequency: float):
+    def __init__(self, job: AsyncJob, frequency: float):
         self.__job = job
         self.__frequency = frequency
 
@@ -42,5 +46,5 @@ class PeriodicJobRunner:
 
     async def __run_continuously(self) -> None:
         while self.__should_keep_running():
-            await self.__job()
+            await self.__job.run_async()
             await asyncio.sleep(self.__frequency)
