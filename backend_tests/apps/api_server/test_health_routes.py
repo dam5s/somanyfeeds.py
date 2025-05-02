@@ -4,7 +4,7 @@ from backend_tests.apps.api_server.testing_app_dependencies import build_test_cl
 
 
 class TestHealthRoutes(unittest.TestCase):
-    def test_check_health(self) -> None:
+    def test_check_health(self):
         client = build_test_client()
 
         response = client.get("/api/health")

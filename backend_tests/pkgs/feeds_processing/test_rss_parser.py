@@ -17,7 +17,7 @@ def download_from_test_resource(file_name: str) -> Download:
 
 
 class TestRssParser(unittest.TestCase):
-    def test_try_parse(self) -> None:
+    def test_try_parse(self):
         download = download_from_test_resource("bluesky.xml")
         result = RssParser().try_parse(download)
 
@@ -33,10 +33,10 @@ class TestRssParser(unittest.TestCase):
         )
         self.assertEqual(expected_article, last_article)
 
-    def test_try_parse__invalid_xml(self) -> None:
+    def test_try_parse__invalid_xml(self):
         # not even xml
         pass
 
-    def test_try_parse__unexpected_xml(self) -> None:
+    def test_try_parse__unexpected_xml(self):
         # xml that is not RSS
         pass

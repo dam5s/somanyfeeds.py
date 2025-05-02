@@ -12,7 +12,7 @@ class FeedsProcessor(AsyncJob):
     __articles_repo: ArticlesRepository
     __feed_parser: FeedParser
 
-    def __init__(self, feeds_repo: FeedsRepository, articles_repo: ArticlesRepository, feed_parser: FeedParser) -> None:
+    def __init__(self, feeds_repo: FeedsRepository, articles_repo: ArticlesRepository, feed_parser: FeedParser):
         self.__feeds_repo = feeds_repo
         self.__articles_repo = articles_repo
         self.__feed_parser = feed_parser
