@@ -3,14 +3,10 @@
 ## Running the dev servers
 
 ```
-make dev-backend
+make dev
 ```
 
-```
-make dev-frontend
-```
-
-The frontend will proxy to the backend for requests under `/api`
+The frontend will automatically proxy to the backend for requests under `/api`
 
 ## Building the container and running it
 
