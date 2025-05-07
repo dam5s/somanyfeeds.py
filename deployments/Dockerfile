@@ -13,7 +13,7 @@ from ghcr.io/astral-sh/uv:debian as uv_builder
 
 workdir /uv_build
 copy pyproject.toml uv.lock /uv_build/
-run uv sync --frozen
+run uv sync --frozen --no-dev
 run uv pip compile pyproject.toml -o requirements.txt
 
 
