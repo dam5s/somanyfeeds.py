@@ -7,8 +7,8 @@
     "dev": "vite",
     "test": "vitest run",
     "build": "tsc -b && vite build",
-    "lint": "eslint src",
-    "preview": "vite preview"
+    "check": "prettier --check src && eslint src && npm test",
+    "fix": "prettier --write src && eslint --fix src"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -29,6 +29,7 @@
     "globals": "^16.0.0",
     "happy-dom": "^17.4.4",
     "http-terminator": "^3.2.0",
+    "prettier": "^3.5.3",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.26.1",
     "vite": "^6.3.1",

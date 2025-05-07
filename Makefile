@@ -6,11 +6,12 @@ check:
 	uv run ruff check
 	uv run ruff format --check
 	uv run -m unittest
-	cd frontend && npm run lint && npm test
+	cd frontend && npm run check
 
 fix:
 	uv run ruff check --fix
 	uv run ruff format
+	cd frontend && npm run fix
 
 container:
 	docker build -f deployments/Dockerfile -t somanyfeeds-py .
