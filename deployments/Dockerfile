@@ -28,5 +28,4 @@ run pip install -r requirements.txt
 run apt-get update && apt-get install -y nginx
 run chmod u+x start.sh
 
-expose 8080
 cmd ["/app/start.sh"]

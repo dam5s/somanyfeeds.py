@@ -12,5 +12,5 @@ The frontend will automatically proxy to the backend for requests under `/api`
 
 ```
 make container
-docker run -p8080:8080 -eSERVER_PORT=8080 -it somanyfeeds-py:latest
+docker run -p8080:8080 --expose 8080 -eSERVER_PORT=8080 -it somanyfeeds-py:latest
 ```

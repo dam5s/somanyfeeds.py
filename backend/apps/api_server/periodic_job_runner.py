@@ -17,6 +17,9 @@ class PeriodicJobRunner:
         self.__job = job
         self.__frequency = frequency
 
+    async def run_once_async(self) -> None:
+        await self.__job.run_async()
+
     async def start_async(self) -> None:
         if self.__running:
             return

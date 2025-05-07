@@ -18,6 +18,10 @@ class ParseError:
     message: str
     exception: Optional[Exception] = None
 
+    @staticmethod
+    def from_exception(exception: Exception) -> "ParseError":
+        return ParseError(message="An exception occurred", exception=exception)
+
 
 @dataclass(frozen=True)
 class Feed:
@@ -27,6 +31,10 @@ class Feed:
 @dataclass(frozen=True)
 class ParseFeedFailure:
     errors: list[ParseError]
+
+    @staticmethod
+    def from_exception(exception: Exception) -> "ParseFeedFailure":
+        return ParseFeedFailure([ParseError.from_exception(exception)])
 
 
 class FeedParser(Protocol):

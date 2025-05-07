@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Damien Le Berrigaud's Blog</title>
+    <description>Ramblings about software, coding, architecture...</description>
+    <link>https://blog.damo.io</link>
+    <lastBuildDate>2024-03-04T02:33:14+00:00</lastBuildDate>
+    <item>
+      <title>Things to learn in React and Redux</title>
+      <link>https://blog.damo.io/posts/things-to-learn-in-react-redux</link>
+      <guid isPermaLink="true">https://blog.damo.io/posts/things-to-learn-in-react-redux</guid>
+      <pubDate>2022-02-20T21:52:00+00:00</pubDate>
+      <description><![CDATA[<p>There is a lot of "tutorials" out there teaching React and Redux.</p>]]></description>
+    </item>
+    <item>
+      <title>initialMonitor</title>
+      <link>https://blog.damo.io/posts/initial-monitor</link>
+      <guid isPermaLink="true">https://blog.damo.io/posts/initial-monitor</guid>
+      <pubDate>2021-11-21T12:12:00+00:00</pubDate>
+      <description><![CDATA[<p>This blog post was originally posted <a href="https://initialcapacity.io/initial-monitor">on the initialCapacity website</a></p>
+<h2>A desktop project monitor in F#.</h2>
+<h3>Key Takeaways</h3>
+<p>We are sharing the <a href="https://github.com/initialcapacity/project-monitor">source code to our custom project monitor</a>.
+This is a great way to get started with <a href="https://fsharp.org/">programming in F#</a> and grasping stateful application architecture.</p>
+<h2>Introduction</h2>
+<p>We recently built <a href="https://github.com/initialcapacity/project-monitor">our own project monitor</a> to keep
+track of the status of our continuous integration builds. We’ve built a few over the past decade or so and
+decided to take a slightly different approach this time by building a desktop application in <a href="https://fsharp.org/">F#</a>.</p>
+<p>The application is running on a local computer connected to a 55” TV monitor in our office. The machine is
+an Intel NUC running <a href="https://pop.system76.com/">Pop!_OS</a>.
+So, that’s right, the app was written in a functional first language, built on Windows, deployed on Linux.</p>
+<p>We decided to go for a cross-platform desktop application to make the app easier to deploy and configure on
+individual, commodity machines that were dormant and likely laying around our office collecting dust. Since
+it’s easy to compile <a href="https://fsharp.org/">F#</a> for any platform we could have deployed the app to a
+Raspberry PI or a Mac Mini. In addition, we’re not paying for any hosting costs related to configuring or
+serving up a web application.</p>
+<p><img src="https://blog.damo.io/posts/initial-monitor/initial-monitor.png" alt="A screenshot of the project monitor" />
+A screenshot of the monitor.</p>
+<h2>Configuration</h2>
+<p>Running the application requires you to pass in the path to a JSON configuration file. The JSON file should
+follow the structure <a href="https://github.com/initialcapacity/project-monitor/blob/main/DesktopApp/res/ConfigSample.json">from the provided sample</a>.
+We could have spent more time building a fancy UI but in the spirit of starting simple we
+favored being able to ship a binary alongside a JSON file - which is much more convenient for our use case.</p>
+<h2>Technology Stack</h2>
+<p>Here is a quick look at the technologies we used to build the application -</p>
+<ul>
+<li><a href="https://dotnet.microsoft.com/download/dotnet/5.0">.NET 5</a></li>
+<li><a href="https://www.jetbrains.com/rider/">JetBrains Rider</a></li>
+<li>or <a href="https://code.visualstudio.com/">Visual Studio Code</a> + <a href="https://ionide.io/">Ionide</a></li>
+</ul>
+<h2>Software Design</h2>
+<p>As previously mentioned, the application is developed with the
+<a href="https://avaloniaui.net/">cross-platform desktop application framework AvaloniaUI</a> and its
+<a href="https://avaloniacommunity.github.io/Avalonia.FuncUI.Docs/">F# companion library Avalonia.FuncUI</a>.</p>
+<p>The application launches a single window which runs a small <a href="https://elmish.github.io/elmish/">Elm-ish application</a>,
+implementing a <strong>Unidirectional Data Flow architecture</strong>. This architecture was originally introduced by
+the <a href="https://guide.elm-lang.org/architecture/">Elm programming suite</a> and popularized by <a href="https://redux.js.org/">Redux</a>.</p>
+<p>When building stateful applications like desktop applications, native mobile applications, or web frontend
+applications, it becomes increasingly important to understand how to deal with state. We have found this
+paradigm shift new to the majority of companies that we’ve worked with over the years. Unidirectional data
+flow is one of the cleanest ways of thinking about UI and its state. The architecture relies heavily on the
+UI being represented by pure functions and not thinking about how the UI changes overtime - but how
+individual areas of the application should render given the current state.</p>
+<p>State is changed through dispatching events and is decoupled from the rendering of the view itself.</p>
+<h2>Adding layouts for more projects</h2>
+<p>The application supports displaying 1 to 6 projects at the time this article is published. To support more
+projects, we can change the <a href="https://github.com/initialcapacity/project-monitor/blob/main/DesktopApp/src/Layout.fs">Layout module</a>
+to support different sized grids. Understanding <a href="https://docs.avaloniaui.net/docs/controls/grid">AvaloniaUI's Grid</a>
+is a great starting point to better understand the layout module.</p>
+<h2>Publishing</h2>
+<p>While the GitHub Action is already configured, publishing for <strong>Linux</strong>, <strong>MacOS</strong>
+or <strong>Windows</strong> is a one line command:</p>
+<pre><code>dotnet publish -c release -r &lt;release-identifier&gt;
+</code></pre>
+<p>Release identifiers can be, for example: <code>osx-x64</code>, <code>linux-x64</code>, <code>win10-x64</code> and they can be targeted
+from any of these operating systems, effectively cross compiling the resulting binary.</p>
+<h2>Summary</h2>
+<p>That’s a wrap! We hope you enjoyed the article.</p>
+<p>&copy; Initial Capacity, Inc. All rights reserved.</p>
+]]></description>
+    </item>
+    <item>
+      <title>Error handling in Kotlin and any modern static type system</title>
+      <link>https://blog.damo.io/posts/error-handling-in-kotlin-and-any-modern-static-type-system</link>
+      <guid isPermaLink="true">https://blog.damo.io/posts/error-handling-in-kotlin-and-any-modern-static-type-system</guid>
+      <pubDate>2018-08-15T23:15:56+00:00</pubDate>
+      <description><![CDATA[<p>This article is about leveraging a technique called <strong>Railway Oriented
+Programming</strong>, in <strong>Kotlin</strong>. It is extensively documented in functional
+languages,
+<a href="https://fsharpforfunandprofit.com/rop/">particularly well in the F# community.</a>
+So I’m going to try to explain how to implement some of it in <strong>Kotlin</strong>.</p>
+<h2>Some background</h2>
+<p>Having written my fair share of <strong>Java</strong>, <strong>Go</strong>, <strong>Ruby</strong>… I’ve seen quite a
+few different paradigms for error handling.</p>
+<p><strong>In Ruby</strong>, one would return different types based on the error status of a
+given function. We would (for example) use symbols to indicate the specific type
+of error that was reached (e.g. <code>:not_found</code>, <code>:connection_failed</code>…).</p>
+<p>It then becomes the responsibility of the consumer of the function to figure out
+the different possible results. The programmer ends up having to read the tests
+for the function, relying on the documentation being accurate, or reading
+through the code of the function itself.</p>
+<p><strong>In Java</strong>, we use exceptions for indicating the function is not successful.
+Non-<code>Runtime</code> exceptions have to be caught and handled, which ends up with a lot
+of code like this -</p>
+<pre><code class="language-java">try {
+    myFunction();
+} catch (IOException e) {
+    throw new RuntimeException(e);
+}
+</code></pre>
+<p>And that obviously can result with a lot of run-time problems…</p>
+<p><strong>In Go</strong>, a function can have multiple return values. The convention is to
+return an error and the value that is wanted. Then the programmer has to check
+for the error before continuing the execution. This results in code similar to
+this -</p>
+<pre><code class="language-go">value, err := myFunction()
+if err != nil {
+    return nil, err
+}
+</code></pre>
+<p>Unfortunately, it can be very easy to forget to handle the error case. The
+compiler will be just fine if we forget to look at the <code>err</code> variable or if we
+don’t assign it. Also this has the unfortunate side effect of spreading the
+“happy path” code in many small chunks of code separated by error checks.</p>
+<h2>Enter discriminated unions</h2>
+<p>Although I am far from being an expert (really far), I have been toying around
+with some functional languages lately. In particular, I like the simplicity of
+<strong>Elm</strong> and <strong>F#</strong>, but I’m looking forward to learning more about advanced
+functional programming with <strong>Haskell</strong> and/or <strong>Scala</strong> eventually.</p>
+<p>Regardless, in all these languages there is the concept of a <em>discriminated
+union</em>
+in <strong>F#</strong> or <em>union type</em> in <strong>Elm</strong>. It allows the programmer to represent a
+type that can have one or many states that can each have their own complexity.
+Think about it as an “enum on steroids”! Actually <strong>Rust</strong> and <strong>Swift</strong> enums
+are <em>union types</em>.</p>
+<p>For example in <strong>F#</strong> you can create an <code>Optional</code> type like this -</p>
+<pre><code class="language-fsharp">type Optional&lt;'a&gt; =
+    | Just of 'a
+    | Nothing
+</code></pre>
+<p>That means that a value of type <code>Optional&lt;string&gt;</code> can either have the value
+<code>Nothing</code> or it can be <code>Just</code> and would contain something of type <code>string</code>. This
+<code>Optional</code> type is a great way of representing the potential absence of a value,
+and it helps avoiding <code>null</code> pointer exceptions. Now you might say “but **
+Kotlin**
+already has a way to avoid null pointer exceptions built-in”, and you are right.
+So let’s look at a type that is built-into <strong>F#</strong>.</p>
+<pre><code class="language-fsharp">type Result&lt;'success, 'error&gt; =
+    | Success of 'success
+    | Error of 'error
+</code></pre>
+<p>If I write a function that returns something of
+type <code>Result&lt;User, ErrorMessage&gt;</code>
+then I know that I will either get a <code>Success</code> back containing a <code>User</code> or I
+will get an <code>Error</code> back and it contains an <code>ErrorMessage</code>. And the <strong>F#</strong>
+compiler would ask me to handle both cases.</p>
+<p>This is actually very similar to a type that you will find in most functional
+languages, <code>Either</code>. It
+exists <a href="https://www.scala-lang.org/api/2.12.0/scala/util/Either.html">in Scala</a>
+and <a href="https://hackage.haskell.org/package/base-4.11.1.0/docs/Data-Either.html">in Haskell.</a></p>
+<p>And now you might say “but does Kotlin even have any way to do that at all?!”,
+and you are in luck, because it does!</p>
+<h2>Enter Kotlin’s sealed classes</h2>
+<p>The same type that we just represented in <strong>F#</strong> can be represented as follows
+in <strong>Kotlin</strong>.</p>
+<pre><code class="language-kotlin">sealed class Result&lt;T, E&gt;
+
+data class Success&lt;T, E&gt;(val value: T): Result&lt;T, E&gt;()
+
+data class Error&lt;T, E&gt;(val value: E): Result&lt;T, E&gt;()
+</code></pre>
+<p>And you could use the type like this:</p>
+<pre><code class="language-kotlin">data class User(val name: String)
+data class ErrorMessage(val message: String)
+
+fun myFunction(): Result&lt;User, ErrorMessage&gt; =
+    Error(ErrorMessage("Oops"))
+
+when (val result = myFunction()) {
+    is Success -&gt; println("Success we got the user ${result.value.name}")
+    is Error -&gt; println("Oops we got a failure ${result.value.message}")
+}
+</code></pre>
+<p>Now this is very basic but already usable, and the compiler will require that we
+do match both cases: <code>Success</code> and <code>Error</code>. It may seem a bit tedious to always
+have to match on result after calling the function. After all, the extra
+boilerplate is why <strong>Java</strong> developers tend to use a lot of <code>RuntimeException</code>s
+instead of having to catch or re-throw them all over the place.</p>
+<p>So let’s add a few functions to the <code>Result</code> class to help handle it.</p>
+<pre><code class="language-kotlin">sealed class Result&lt;T, E&gt; {
+    abstract fun &lt;NewT&gt; map(mapping: (T) -&gt; NewT): Result&lt;NewT, E&gt;
+    abstract fun &lt;NewT&gt; flatMap(mapping: (T) -&gt; Result&lt;NewT, E&gt;): Result&lt;NewT, E&gt;
+    abstract fun &lt;NewE&gt; mapFailure(mapping: (E) -&gt; NewE): Result&lt;T, NewE&gt;
+    abstract fun &lt;NewE&gt; flatMapFailure(mapping: (E) -&gt; Result&lt;T, NewE&gt;): Result&lt;T, NewE&gt;
+    abstract fun orElse(other: T): T
+    abstract fun orElse(function: (E) -&gt; T): T
+}
+</code></pre>
+<p>The full implementation can be found
+<a href="https://gist.github.com/dam5s/7fad877656fa891640c115688dbe0f5a">as a Gist on my Github.</a></p>
+<p>With these functions you will be able to write code that handles errors very
+simply and concisely. For example,</p>
+<pre><code class="language-kotlin">fun fetchUsers(): Result&lt;List&lt;User&gt;, ErrorMessage&gt; =
+    buildRequest("GET", "http://example.com/api/users")
+        .execute()
+        .flatMap { it.parseJson&lt;UserListJson&gt;() }
+        .map { it.users }
+</code></pre>
+<p>In this example, I executed an HTTP request using a function that returns a
+<code>Result</code> then I parsed the response if the <code>Result</code> was a <code>Success</code>. The parsing
+is also a function that returns a <code>Result</code> so I used <code>flatMap</code>. Finally I return
+the list of <code>Users</code> from the parsed <code>UserListJson</code>.</p>
+<p>At no point in that function did I have to handle the error branches (because my
+functions are always using <code>ErrorMessage</code> for the failure case).</p>
+<p>This makes for code that is <strong>a lot easier to maintain</strong>. The compiler is going
+to do most of the heavy lifting for us.</p>
+<p>This is <a href="https://fsharpforfunandprofit.com/rop/">Railway Oriented Programming</a>
+(I highly recommend reading that article).</p>
+<p>I would encourage you to try and use this style of programming more and more if
+you have the privilege of using a language that offers this kind of feature. If
+you are using any external library that throws exceptions, make sure to write
+some small wrapper functions that will instead return a <code>Result</code> type.</p>
+<p>Enjoy your exception free codebase!</p>
+]]></description>
+    </item>
+    <item>
+      <title>Testing Kotlin with a custom DSL for Aspen</title>
+      <link>https://blog.damo.io/posts/testing-kotlin-with-a-custom-dsl-for-aspen</link>
+      <guid isPermaLink="true">https://blog.damo.io/posts/testing-kotlin-with-a-custom-dsl-for-aspen</guid>
+      <pubDate>2016-07-13T00:34:56+00:00</pubDate>
+      <description><![CDATA[<p><img src="https://blog.damo.io/posts/testing-kotlin-with-a-custom-dsl-for-aspen/aspen.svg" alt="Aspen Logo" /></p>
+<h2>Where that feature came from</h2>
+<p>When I started working on Aspen, I was focusing on only a few things: I want an
+easy way to regroup my tests for a given function, and I want to be able to name
+my tests with a simple sentence but I don’t want to have to name my tests. That
+lead to version 1.0.</p>
+<p>Then came Spring integration, version 1.1. Then we started talking to more
+people to see what they wanted, and it became quickly obvious that a very simple
+DSL was not going to be enough for some. So I started working on another DSL
+that would allow nesting of the tree structure, like rSpec does. This lead to
+version 1.2.</p>
+<p>During the creation of that second DSL, I tried to figure out what was the right
+abstraction for it. It became obvious that we are building a tree structure and
+running that. So now I’m going to show you how to create your own DSL that
+builds a tree structure for Aspen.</p>
+<h2>Building a TestTree</h2>
+<p>The goal of the DSL is to build a TestTree that can then be run by the
+TestTreeRunner from Aspen. For example, with the built-in DSL, the following
+code…</p>
+<pre><code class="language-kotlin">class MyTests: Test({
+
+    describe("foo") {
+        test("a") {
+
+        }
+
+        test("b") {
+
+        }
+    }
+
+    describe("bar") {
+        test("c") {
+
+        }
+    }
+})
+</code></pre>
+<p>…would build the following structure.</p>
+<p><img src="https://blog.damo.io/posts/testing-kotlin-with-a-custom-dsl-for-aspen/test-tree-structure.png" alt="Test Tree Structure" /></p>
+<h2>The TestTree Interface</h2>
+<p>An Aspen DSL implements the TestTree Interface.</p>
+<pre><code class="language-kotlin">interface TestTree {
+    fun readTestBody()
+    fun getRoot(): TestBranch
+}
+</code></pre>
+<p>The <code>readTestBody</code> function is the one that is supposed to evaluate the body of
+the tests and build the tree structure, thus making the root available. It is
+invoked at a particular time in the SpringTestTreeRunner for instance, the
+default TestTreeRunner invokes it as soon as it needs to browse the tree.</p>
+<p>The <code>getRoot</code> function is more obvious, it returns the first branch of your
+Tree.</p>
+<p>A <code>TestBranch</code> has <code>children</code> and optional <code>before</code> and <code>after</code> blocks. Its
+children can be of type <code>TestBranch</code> or <code>TestLeaf</code>. A <code>TestLeaf</code> represents an
+actual test, it has a block of code to execute and can have a focused flag.</p>
+<p>All the code for the <code>TestTree</code> is in a single file:
+<a href="https://github.com/dam5s/aspen/blob/master/libraries/aspen/src/main/kotlin/io/damo/aspen/TestTree.kt"><a href="https://github.com/dam5s/aspen/blob/master/libraries/aspen/src/main/kotlin/io/damo/aspen/TestTree.kt">https://github.com/dam5s/aspen/blob/master/libraries/aspen/src/main/kotlin/io/damo/aspen/TestTree.kt</a></a></p>
+<h2>The Test class</h2>
+<p>Let’s start with the easy part, implementing the TestTree interface:</p>
+<pre><code class="language-kotlin">@RunWith(TestTreeRunner::class)
+open class Test : TestTree {
+    private val root = TestBranch.createRoot()
+    private val body: Test.() -&gt; Unit
+
+    constructor(body: Test.() -&gt; Unit) {
+        this.body = body
+    }
+
+    override fun getRoot() = root
+
+    override fun readTestBody() {
+        this.body.invoke(this)
+    }
+}
+</code></pre>
+<p>This is an open class that is run with the <code>TestTreeRunner</code> and implements
+<code>TestTree</code>. The root is created with <code>TestBranch.createRoot</code>, creating a branch
+without parent, without name… The body is an extension function for the class
+itself, this is the block of code that will contain your tests and build the
+<code>TestTree</code> structure, it is evaluated in the <code>readTestBody</code> function.</p>
+<p>Now you can start adding some functions that will help you build the tree.</p>
+<p>This will allow specifying the before and after block:</p>
+<pre><code class="language-kotlin">fun before(block: () -&gt; Unit) {
+    root.before = block
+}
+
+fun after(block: () -&gt; Unit) {
+    root.after = block
+}
+</code></pre>
+<p>This will add a test at the root level:</p>
+<pre><code class="language-kotlin">fun test(name: Any = "unnamed test", block: () -&gt; Unit) {
+    root.addChildLeaf(name.toString(), block)
+}
+</code></pre>
+<p>Now in order to add branches that do not allow nesting, we have to create a
+function that will take an extension function for a different type. If it was
+for the same type, then we would be able to call that same function over and
+over.</p>
+<pre><code class="language-kotlin">fun describe(name: Any, block: TestDescription.() -&gt; Unit) {
+    val newBranch = root.addChildBranch(name.toString())
+    TestDescription(newBranch).block()
+}
+</code></pre>
+<p>The <code>TestDescription</code> only allows adding tests:</p>
+<pre><code class="language-kotlin">class TestDescription(private val branch: TestBranch) {
+    fun test(name: String = "unnamed test", block: () -&gt; Unit) {
+        branch.addChildLeaf(name, block)
+    }
+}
+</code></pre>
+<p>And that’s it! From that point you can start making your DSL even smarter.</p>
+<p>For instance, I have been working on making a DSL for nicer table based tests.
+You can see its
+<a href="https://github.com/dam5s/aspen/blob/table-test-spike/libraries/aspen/src/main/kotlin/io/damo/aspen/Test.kt">first implementation on Github</a>.
+It would allow for writing a test like this:</p>
+<pre><code class="language-kotlin">class MathTest : Test({
+
+    class MaxData(context: String, val a: Int, val b: Int, val c: Int)
+        : TestData(context)
+
+    val testData = listOf(
+        MaxData("when equal", 2, 2, 2),
+        MaxData("when a is greater", 3, 1, 3),
+        MaxData("when b is greater", 3, 4, 4)
+    )
+
+    tableTest(testData) {
+        test {
+            assertThat(Math.max(a, b), equalTo(c))
+        }
+    }
+})
+</code></pre>
+<p>But it is still a work in progress, as I still need to figure out exactly how I
+want my test to look like (that test block does not look useful for instance).</p>
+<p>I hope this convinced you that it’s very simple to write your own type safe DSL
+for testing with Aspen. Let me know what you think about it!</p>
+]]></description>
+    </item>
+    <item>
+      <title>Kotlin testing with Aspen and Aspen Spring</title>
+      <link>https://blog.damo.io/posts/kotlin-testing-with-aspen-and-aspen-spring</link>
+      <guid isPermaLink="true">https://blog.damo.io/posts/kotlin-testing-with-aspen-and-aspen-spring</guid>
+      <pubDate>2016-07-05T21:14:57+00:00</pubDate>
+      <description><![CDATA[<p>TL;DR — Aspen 2.0 is out, check it out:
+<a href="https://github.com/dam5s/aspen"><a href="https://github.com/dam5s/aspen">https://github.com/dam5s/aspen</a></a></p>
+<h2>How I got into Kotlin</h2>
+<p>I started looking at Kotlin around release M9, it was quite a few months before
+it was released as 1.0, but it was already very usable. Kotlin promised easy
+integration with your Java code, running on the Java 6 VM and a lot of features
+that make the code a lot nicer to work with.</p>
+<p>Having worked with Java for a couple years with some of our clients, I was
+really excited to get rid of the verbosity and keep the things I like in Java: a
+good build system (Gradle), easy to build modular applications, a decent type
+system (that gets improved a lot by Kotlin), and a huge ecosystem with mature
+libraries.</p>
+<p>Our first production project for a client was using Kotlin M12 for an Android
+application. The experience was great, the client developers were former C#
+developers. They loved the language, and despite a few quirks here and there, we
+shipped it by the time Kotlin M13 was released. A few weeks later, Kotlin 1.0
+was released.</p>
+<p>Now I have been through a couple more projects with Kotlin and I would advise
+any Java developer out there to look into it. It’s easy to get started with, and
+you can introduce it in your existing projects without pain.</p>
+<h2>Why I decided to create Aspen</h2>
+<p>I have been really enjoying the simplicity of Java unit tests using JUnit. Its
+simplicity encourages you to write simple tests that are easy to read. Using
+only one “@Before” annotated function encourages you to make each test readable
+from top to bottom without having to jump around.</p>
+<p>The only thing I really miss from my Ruby days was being able to write a short
+sentence to describe my test. With JUnit, I would name tests following this
+pattern:</p>
+<pre><code class="language-java">public void testMyFunction              // testing the happy path
+public void testMyFunction_WhenInput... // testing another context
+</code></pre>
+<p>Some developers would also describe the expected outcome in the function name. I
+do not do that because I want to encourage developers in my team to name
+variables and write assertions that talk for themselves. Also I do not want to
+have yet another comment that can get out of sync easily.</p>
+<p>Kotlin allowing to create type safe DSLs, I decided to write a DSL for testing.
+It is inspired by RSpec and Spek, but it is a lot simplified and easy to extend
+with your own DSL if you would like.</p>
+<h2>Here comes Aspen</h2>
+<p>An Aspen test looks like this:</p>
+<pre><code class="language-kotlin">class PersonTestExample : Test({
+    describe("#fullName") {
+        test {
+            val person = buildPerson(
+                firstName = "Jane",
+                lastName = "Doe"
+            )
+            assertThat(person.fullName(), equalTo("Jane Doe"))
+        }
+
+        test("with a middle name") {
+            val person = buildPerson(
+                firstName = "John",
+                middleName = "William",
+                lastName = "Doe"
+            )
+            assertThat(person.fullName(), equalTo("John W. Doe"))
+        }
+    }
+
+    describe("#greeting") {
+        test {
+            val person = buildPerson(
+                firstName = "Jane",
+                lastName = "Doe"
+            )
+            assertThat(person.greeting(), equalTo("Greetings Jane!"))
+        }
+    }
+})
+</code></pre>
+<p><img src="https://blog.damo.io/posts/kotlin-testing-with-aspen-and-aspen-spring/aspen-test-example.png" alt="Output from running the test above in IntelliJ IDEA." /></p>
+<p>With the help of a few colleagues (Joe, Jack, Mike G, Travis, Nathan, Alex…
+thanks guys!), we wrote Aspen. It’s a really simple DSL that makes unit tests
+easier to organize, and it’s built on top of JUnit.</p>
+<h2>Spring Integration</h2>
+<p>A big requirement for us to use a testing framework: it has to work with Spring.
+Most of the tests we write with Spring are pure unit tests, so that already just
+works. But we also have a few tests that require us to use the Spring test
+runner in order to spin up the server and run some higher level tests.</p>
+<p>Thankfully the Spring team has done a great job at abstracting the way the
+Spring runner work. It’s been very easy to write our own runner for Spring that
+reuses the code by the Spring team.</p>
+<p>A test with Aspen Spring can look like this:</p>
+<pre><code class="language-kotlin">@RunWith(SpringTestTreeRunner::class)
+@SpringApplicationConfiguration(ExampleApplication::class)
+@WebIntegrationTest("server.port:0")
+class SpringApplicationTestExample : Test({
+
+  val message: String = inject("myMessage")
+  val port = injectValue("local.server.port", Int::class)
+  val client = OkHttpClient()
+
+  test("GET /hello") {
+    val request = Request.Builder()
+      .url("http://localhost:$port/hello")
+      .build()
+    val response = client.newCall(request).execute()
+
+    val body = response.body().string()
+
+    assertThat(body, equalTo("""{"hello":"world"}"""))
+    assertThat(body, equalTo("""{"hello":"$message"}"""))
+  }
+
+  test("GET /world") {
+    //...
+  }
+})
+</code></pre>
+<h2>Getting Aspen and Aspen Spring</h2>
+<p>Instructions for setting up Aspen and Aspen Spring are
+on <a href="https://github.com/dam5s/aspen">my Github</a>.</p>
+]]></description>
+    </item>
+  </channel>
+</rss>

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from urllib.request import urlopen
+
+import requests
 
 
 @dataclass(frozen=True)
@@ -15,7 +16,7 @@ class DownloadFailure:
 
 def download(url: str) -> Download | DownloadFailure:
     try:
-        output = urlopen(url).read()
-        return Download(url, content=output.decode("utf-8"))
+        response = requests.get(url)
+        return Download(url, content=response.content.decode("utf-8"))
     except Exception as e:
         return DownloadFailure(e)
