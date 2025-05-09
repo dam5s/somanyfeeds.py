@@ -11,6 +11,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "httpx>=0.28.1,<2.0",
+    "pydantic-settings>=2.9.1",
     "pyrefly>=0.13.0,<2.0",
     "responses>=0.25.7",
     "ruff>=0.11.7,<2.0",

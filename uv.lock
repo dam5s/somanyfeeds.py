@@ -180,6 +180,20 @@ wheels = [
 ]
 
 [[package]]
+name = "pydantic-settings"
+version = "2.9.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "python-dotenv" },
+    { name = "typing-inspection" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/67/1d/42628a2c33e93f8e9acbde0d5d735fa0850f3e6a2f8cb1eb6c40b9a732ac/pydantic_settings-2.9.1.tar.gz", hash = "sha256:c509bf79d27563add44e8446233359004ed85066cd096d8b510f715e6ef5d268", size = 163234, upload_time = "2025-04-18T16:44:48.265Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b6/5f/d6d641b490fd3ec2c4c13b4244d68deea3a1b970a97be64f34fb5504ff72/pydantic_settings-2.9.1-py3-none-any.whl", hash = "sha256:59b4f431b1defb26fe620c71a7d3968a710d719f5f4cdbbdb7926edeb770f6ef", size = 44356, upload_time = "2025-04-18T16:44:46.617Z" },
+]
+
+[[package]]
 name = "pyrefly"
 version = "0.13.0"
 source = { registry = "https://pypi.org/simple" }
@@ -192,6 +206,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/ce/a3/c41cbf27f4cef90675f18fa0d35b24ebfac19ac2c255168cf4b6726b7f9d/pyrefly-0.13.0-py3-none-win32.whl", hash = "sha256:beb9e3e249d9080778a2aad7a0c874eebe501ea7672b8be77524251d96d391b9", size = 5351536, upload_time = "2025-04-28T18:41:34.528Z" },
     { url = "https://files.pythonhosted.org/packages/35/cb/52486bb5cea9678aac01e4a4ed2bca0df86b721e18c7a597639dd03929bc/pyrefly-0.13.0-py3-none-win_amd64.whl", hash = "sha256:d4983035740825cc3221c58db38fc64293f70b1bfbd0e405ad3c396c6c282532", size = 5754295, upload_time = "2025-04-28T18:41:36.151Z" },
     { url = "https://files.pythonhosted.org/packages/15/65/e6bbab5a3bac4a1916a709e31d2a557fea8c28667faffea5834a00783beb/pyrefly-0.13.0-py3-none-win_arm64.whl", hash = "sha256:db16c497dcfbc303f073223ab94c1cc3756b8c11139be75931c3589d6e97d5aa", size = 5471310, upload_time = "2025-04-28T18:41:38.112Z" },
+]
+
+[[package]]
+name = "python-dotenv"
+version = "1.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/88/2c/7bb1416c5620485aa793f2de31d3df393d3686aa8a8506d11e10e13c5baf/python_dotenv-1.1.0.tar.gz", hash = "sha256:41f90bc6f5f177fb41f53e87666db362025010eb28f60a01c9143bfa33a2b2d5", size = 39920, upload_time = "2025-03-25T10:14:56.835Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1e/18/98a99ad95133c6a6e2005fe89faedf294a748bd5dc803008059409ac9b1e/python_dotenv-1.1.0-py3-none-any.whl", hash = "sha256:d7c01d9e2293916c18baf562d95698754b0dbbb5e74d457c45d4f6561fb9d55d", size = 20256, upload_time = "2025-03-25T10:14:55.034Z" },
 ]
 
 [[package]]
@@ -287,6 +310,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "httpx" },
+    { name = "pydantic-settings" },
     { name = "pyrefly" },
     { name = "responses" },
     { name = "ruff" },
@@ -302,6 +326,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "httpx", specifier = ">=0.28.1,<2.0" },
+    { name = "pydantic-settings", specifier = ">=2.9.1" },
     { name = "pyrefly", specifier = ">=0.13.0,<2.0" },
     { name = "responses", specifier = ">=0.25.7" },
     { name = "ruff", specifier = ">=0.11.7,<2.0" },
