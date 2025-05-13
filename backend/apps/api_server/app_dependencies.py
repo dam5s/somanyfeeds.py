@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from backend.apps.api_server.feeds_processor import FeedsProcessor
 from backend.apps.api_server.periodic_job_runner import PeriodicJobRunner
-from backend.pkgs.database_support.database_template import DatabaseTemplate
+from backend.pkgs.database_support.database_gateway import DatabaseGateway
 from backend.pkgs.feeds_data.articles_repository import ArticlesRepository
 from backend.pkgs.feeds_data.feeds_repository import FeedsRepository
 from backend.pkgs.feeds_processing.feed_parser import MultiFeedParser, FeedParser
@@ -36,7 +36,7 @@ class AppDependencies:
     @staticmethod
     def defaults(settings: AppSettings = AppSettings()) -> "AppDependencies":
         engine = sqlalchemy.create_engine(settings.database_url, pool_size=4)
-        db = DatabaseTemplate(engine)
+        db = DatabaseGateway(engine)
 
         feeds_repository = FeedsRepository(db)
         articles_repository = ArticlesRepository()

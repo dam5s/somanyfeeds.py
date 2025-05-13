@@ -12,7 +12,7 @@ def decode_data_class(data_class: Type[T], data: dict[str, Any]) -> T:
     return dacite.from_dict(data_class, cast(Data, data))
 
 
-class DatabaseTemplate:
+class DatabaseGateway:
     def __init__(self, engine: Engine):
         self.engine = engine
 
@@ -35,5 +35,4 @@ class DatabaseTemplate:
     def __query(self, query: str, **kwargs: Any) -> list[dict[str, Any]]:
         with self.engine.connect() as connection:
             results = connection.execute(text(query), parameters=kwargs).all()
-
-            return [{key: row._mapping[key] for key in row._mapping.keys()} for row in results]
+            return [dict(row._mapping) for row in results]

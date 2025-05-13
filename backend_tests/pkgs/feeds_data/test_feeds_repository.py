@@ -15,7 +15,3 @@ class TestFeedsRepository(unittest.TestCase):
         record2 = repo.add("https://example.org/feed")
 
         self.assertEqual([record1, record2], repo.find_all())
-
-
-if __name__ == "__main__":
-    unittest.main()

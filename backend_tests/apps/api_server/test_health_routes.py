@@ -11,7 +11,3 @@ class TestHealthRoutes(unittest.TestCase):
 
         self.assertEqual(200, response.status_code)
         self.assertEqual({"status": "ok"}, response.json())
-
-
-if __name__ == "__main__":
-    unittest.main()

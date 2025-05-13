@@ -1,7 +1,7 @@
 import uuid
 from dataclasses import dataclass
 
-from backend.pkgs.database_support.database_template import DatabaseTemplate
+from backend.pkgs.database_support.database_gateway import DatabaseGateway
 from backend.pkgs.database_support.uuid_v7 import generate_uuid_v7
 
 
@@ -12,7 +12,7 @@ class FeedRecord:
 
 
 class FeedsRepository:
-    def __init__(self, db: DatabaseTemplate):
+    def __init__(self, db: DatabaseGateway):
         self.db = db
 
     def add(self, url: str) -> FeedRecord:
