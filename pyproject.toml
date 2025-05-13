@@ -9,7 +9,7 @@ dependencies = [
     "psycopg2-binary>=2.9.10",
     "requests>=2.32.3",
     "sqlalchemy>=2.0.40",
-    "uuid7>=0.1.0",
+    "uuid6>=2024.7.10",
     "uvicorn>=0.34.2,<2.0",
 ]
 
@@ -17,13 +17,10 @@ dependencies = [
 dev = [
     "httpx>=0.28.1,<2.0",
     "pydantic-settings>=2.9.1",
-    "pyrefly>=0.13.0,<2.0",
+    "pyrefly>=0.15.0,<2.0",
     "responses>=0.25.7",
-    "ruff>=0.11.7,<2.0",
+    "ruff>=0.11.9,<2.0",
 ]
-
-[tool.pyrefly]
-use_untyped_imports = true
 
 [tool.ruff]
 line-length = 120
