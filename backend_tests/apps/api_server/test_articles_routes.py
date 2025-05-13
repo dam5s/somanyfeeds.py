@@ -3,7 +3,6 @@ import unittest
 import responses
 
 from backend.apps.api_server.app_dependencies import AppDependencies
-from backend.pkgs.feeds_data.feeds_repository import FeedRecord
 from backend_tests.apps.api_server.testing_app_dependencies import build_test_client
 from backend_tests.pkgs.feeds_test_support.feeds_resources import content_from_feed_resource
 
@@ -14,9 +13,8 @@ class TestArticlesRoutes(unittest.IsolatedAsyncioTestCase):
         stubbed_rss_feed = content_from_feed_resource("blog.xml")
         responses.add("GET", "https://blog.damo.io/rss.xml", body=stubbed_rss_feed, status=200)
 
-        feed = FeedRecord(id="feed:1", url="https://blog.damo.io/rss.xml")
         deps = AppDependencies.defaults()
-        deps.feeds_repository.add(feed)
+        deps.feeds_repository.add("https://blog.damo.io/rss.xml")
 
         await deps.feeds_job_runner.run_once_async()
         self.assertEqual(5, len(deps.articles_repository.find_all()))

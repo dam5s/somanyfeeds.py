@@ -23,7 +23,8 @@ workdir /app
 copy --from=frontend_builder /frontend_build/dist/ /app/frontend/
 copy --from=uv_builder /uv_build/requirements.txt /app/
 copy backend/ /app/backend/
-copy deployments/config /app
+copy databases/ /app/databases/
+copy deployments/resources /app
 run pip install -r requirements.txt
 run apt-get update && apt-get install -y nginx
 run chmod u+x start.sh

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+if [[ -z "${DATABASE_URL}" ]]; then
+  echo "DATABASE_URL is no set, exiting"
+  exit 1
+fi
+
+SCRIPTS_DIR=$(dirname "$0")
+DATABASE_DIR="${SCRIPTS_DIR}/../databases/somanyfeeds_db"
+
+pushd "$DATABASE_DIR"
+alembic upgrade head
+popd

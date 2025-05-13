@@ -1,0 +1,11 @@
+services:
+  somanyfeeds-db:
+    image: postgres:17.5
+    container_name: somanyfeeds-db
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: 'secret'
+    volumes:
+      - ./databases/somanyfeeds_db/init_scripts:/docker-entrypoint-initdb.d
+      - ./.docker_data/somanyfeeds_db:/var/lib/postgresql/data
