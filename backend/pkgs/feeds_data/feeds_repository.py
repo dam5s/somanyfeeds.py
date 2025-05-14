@@ -1,14 +1,19 @@
 import uuid
-from dataclasses import dataclass
+from typing import Any
+
+from pydantic import BaseModel
 
 from backend.pkgs.database_support.database_gateway import DatabaseGateway
 from backend.pkgs.database_support.uuid_v7 import generate_uuid_v7
 
 
-@dataclass(frozen=True)
-class FeedRecord:
+class FeedRecord(BaseModel):
     id: uuid.UUID
     url: str
+
+
+def map_feed_record(row: dict[str, Any]) -> FeedRecord:
+    return FeedRecord.model_validate(row)
 
 
 class FeedsRepository:
@@ -21,4 +26,4 @@ class FeedsRepository:
         return record
 
     def find_all(self) -> list[FeedRecord]:
-        return self.db.query_all("select * from feeds", FeedRecord)
+        return self.db.query_all("select * from feeds", map_feed_record)
