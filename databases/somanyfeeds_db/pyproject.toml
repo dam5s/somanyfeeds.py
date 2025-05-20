@@ -1,0 +1,8 @@
+[project]
+name = "somanyfeeds-db"
+version = "0.1.0"
+requires-python = ">=3.13.3, <3.14"
+dependencies = [
+    "alembic>=1.15.2,<2.0",
+    "psycopg-binary>=3.2.9,<4.0",
+]

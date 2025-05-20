@@ -8,8 +8,9 @@ database_url = os.environ.get("DATABASE_URL")
 if database_url is None:
     raise ValueError("DATABASE_URL environment variable is not set")
 
+psycopg_db_url = database_url.replace("postgresql://", "postgresql+psycopg://")
 config = context.config
-config.set_main_option("sqlalchemy.url", database_url)
+config.set_main_option("sqlalchemy.url", psycopg_db_url)
 
 connectable = engine_from_config(
     config.get_section(config.config_ini_section, {}),

@@ -1,7 +1,9 @@
 import unittest
+import uuid
 
 from backend.pkgs.feeds_data.feeds_repository import FeedsRepository
 from backend_tests.pkgs.database_test_support.testing_database_template import create_testing_db
+from backend_tests.pkgs.database_test_support.testing_uuid_generator import TestingUUIDGenerator
 
 
 class TestFeedsRepository(unittest.TestCase):
@@ -9,7 +11,9 @@ class TestFeedsRepository(unittest.TestCase):
         db = create_testing_db()
         db.execute("truncate feeds")
 
-        repo = FeedsRepository(db)
+        uuids = [uuid.uuid4(), uuid.uuid4()]
+        uuid_gen = TestingUUIDGenerator(*uuids)
+        repo = FeedsRepository(db, uuid_gen)
 
         record1 = repo.add("https://example.com/rss.xml")
         record2 = repo.add("https://example.org/feed")

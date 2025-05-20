@@ -9,3 +9,15 @@ services:
     volumes:
       - ./databases/somanyfeeds_db/init_scripts:/docker-entrypoint-initdb.d
       - ./.docker_data/somanyfeeds_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      start_period: 1s
+      start_interval: 1s
+
+  wait:
+    image: dokku/wait
+    container_name: wait
+    depends_on:
+      somanyfeeds-db:
+        condition: service_healthy

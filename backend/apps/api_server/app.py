@@ -16,6 +16,5 @@ def build_app(deps: AppDependencies = AppDependencies.defaults()) -> FastAPI:
 
     api = FastAPI(lifespan=lifespan)
     api.include_router(health_routes.router(), prefix="/api")
-    api.include_router(articles_routes.router(deps), prefix="/api")
-
+    api.include_router(articles_routes.router(deps.articles_repository), prefix="/api")
     return api

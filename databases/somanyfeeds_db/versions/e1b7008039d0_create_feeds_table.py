@@ -20,9 +20,10 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     op.execute("""
-        create table feeds (
+        create table feeds
+        (
             id uuid not null primary key,
-            url varchar(255)
+            url varchar(255) not null
         );
         grant all privileges on table feeds to somanyfeeds;
     """)

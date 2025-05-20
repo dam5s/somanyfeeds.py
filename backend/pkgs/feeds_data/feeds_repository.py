@@ -1,29 +1,26 @@
 import uuid
-from typing import Any
-
-from pydantic import BaseModel
+from dataclasses import dataclass
 
 from backend.pkgs.database_support.database_gateway import DatabaseGateway
-from backend.pkgs.database_support.uuid_v7 import generate_uuid_v7
+from backend.pkgs.database_support.uuid_generator import UUIDGenerator
 
 
-class FeedRecord(BaseModel):
+@dataclass
+class FeedRecord:
     id: uuid.UUID
     url: str
 
 
-def map_feed_record(row: dict[str, Any]) -> FeedRecord:
-    return FeedRecord.model_validate(row)
-
-
 class FeedsRepository:
-    def __init__(self, db: DatabaseGateway):
+    def __init__(self, db: DatabaseGateway, uuid_gen: UUIDGenerator):
         self.db = db
+        self.uuid_gen = uuid_gen
 
     def add(self, url: str) -> FeedRecord:
-        record = FeedRecord(id=generate_uuid_v7(), url=url)
-        self.db.execute("insert into feeds (id, url) values (:id, :url)", id=record.id.__str__(), url=record.url)
+        new_record_id = self.uuid_gen.generate()
+        record = FeedRecord(id=new_record_id, url=url)
+        self.db.execute("insert into feeds (id, url) values (%(id)s, %(url)s)", id=record.id.__str__(), url=record.url)
         return record
 
     def find_all(self) -> list[FeedRecord]:
-        return self.db.query_all("select * from feeds", map_feed_record)
+        return self.db.query_all_records("select * from feeds", FeedRecord)

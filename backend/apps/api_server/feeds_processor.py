@@ -1,7 +1,7 @@
 import logging
 
 from backend.apps.api_server.periodic_job_runner import AsyncJob
-from backend.pkgs.feeds_data.articles_repository import ArticlesRepository, ArticleRecord
+from backend.pkgs.feeds_data.articles_repository import ArticlesRepository, ArticleRecord, ArticleFields
 from backend.pkgs.feeds_data.feeds_repository import FeedsRepository, FeedRecord
 from backend.pkgs.feeds_processing.downloads import download, DownloadFailure
 from backend.pkgs.feeds_processing.feed_parser import ParseFeedFailure, Feed, FeedParser
@@ -27,8 +27,8 @@ class FeedsProcessor(AsyncJob):
                 case ParseFeedFailure():
                     logging.error("Error parsing feed %s", feed.url)
                 case Feed():
-                    article_records = [
-                        ArticleRecord(
+                    article_fields = [
+                        ArticleFields(
                             feed_url=feed.url,
                             url=article.url,
                             title=article.title,
@@ -37,7 +37,7 @@ class FeedsProcessor(AsyncJob):
                         )
                         for article in result.articles
                     ]
-                    self.__articles_repo.upsert_all(article_records)
+                    self.__articles_repo.upsert_all(article_fields)
 
     def __process_feed(self, feed: FeedRecord) -> DownloadFailure | ParseFeedFailure | Feed:
         download_result = download(feed.url)

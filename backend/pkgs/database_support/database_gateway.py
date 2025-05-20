@@ -1,34 +1,63 @@
-from typing import Any, TypeVar, Callable
+from typing import Any, TypeVar, Type, cast
 
-from sqlalchemy import Engine, text
-from sqlalchemy.exc import NoResultFound
+import dacite
+from dacite.data import Data
+from psycopg_pool import ConnectionPool
 
 T = TypeVar("T")
 
 DatabaseRow = dict[str, Any]
 
 
+class NoResultFound(Exception):
+    pass
+
+
+def map_data_class(data_class: Type[T], row: DatabaseRow) -> T:
+    return dacite.from_dict(data_class, cast(Data, row))
+
+
 class DatabaseGateway:
-    def __init__(self, engine: Engine):
-        self.engine = engine
-
-    def query_one(self, query: str, mapping: Callable[[DatabaseRow], T], **kwargs: Any) -> T:
-        records = self.__query(query, **kwargs)
-
-        if len(records) < 1:
-            raise NoResultFound
-
-        return mapping(records[0])
-
-    def query_all(self, query: str, mapping: Callable[[DatabaseRow], T], **kwargs: Any) -> list[T]:
-        records = self.__query(query, **kwargs)
-        return [mapping(record) for record in records]
+    def __init__(self, pool: ConnectionPool):
+        self.pool = pool
 
     def execute(self, query: str, **kwargs: Any) -> None:
-        with self.engine.begin() as connection:
-            connection.execute(text(query), parameters=kwargs)
+        with self.pool.connection() as connection:
+            connection.execute(query, params=kwargs)
 
-    def __query(self, query: str, **kwargs: Any) -> list[DatabaseRow]:
-        with self.engine.connect() as connection:
-            results = connection.execute(text(query), parameters=kwargs).all()
-            return [dict(row._mapping) for row in results]
+    def query_all_rows(self, query: str, **kwargs: Any) -> list[DatabaseRow]:
+        with self.pool.connection() as connection:
+            cursor = connection.execute(query, params=kwargs)
+            return cursor.fetchall()
+
+    def try_query_one_row(self, query: str, **kwargs: Any) -> DatabaseRow | None:
+        rows = self.query_all_rows(query, **kwargs)
+
+        if len(rows) < 1:
+            return None
+
+        return rows[0]
+
+    def query_one_row(self, query: str, **kwargs: Any) -> DatabaseRow:
+        row = self.try_query_one_row(query, **kwargs)
+
+        if row is None:
+            raise NoResultFound
+
+        return row
+
+    def query_all_records(self, query: str, data_class: Type[T], **kwargs: Any) -> list[T]:
+        rows = self.query_all_rows(query, **kwargs)
+        return [map_data_class(data_class, row) for row in rows]
+
+    def query_one_record(self, query: str, data_class: Type[T], **kwargs: Any) -> T:
+        row = self.query_one_row(query, **kwargs)
+        return map_data_class(data_class, row)
+
+    def try_query_one_record(self, query: str, data_class: Type[T], **kwargs: Any) -> T | None:
+        row = self.try_query_one_row(query, **kwargs)
+
+        if row is None:
+            return None
+
+        return map_data_class(data_class, row)
